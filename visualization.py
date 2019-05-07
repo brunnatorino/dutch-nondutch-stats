@@ -52,7 +52,7 @@ sns.distplot(d, hist=False, rug=True);##orange
 sns.boxplot(data=df)
 
 
-************************ separate kernel
+## separate kernel
 
 df1=pd.melt(df, id_vars='region',value_vars=['perc_P_50c','perc_R_50c',
                                                'perc_P_20','perc_R_20'])
