@@ -7,8 +7,13 @@ from pandas import DataFrame
 import math 
 from scipy.stats import mannwhitneyu
 
+## importing excel file with data and calling columns for better data handling
+## culture refers to region in the world person is from, will not use it specifically for this code 
+##since this is just for visualization purposes
+
 df_initial = pd.read_excel('./thewhyx.xlsx', names=['time','ID','region','culture','perc_P_50c','perc_R_50c',
                                             'perc_P_20','perc_R_20'])
+## deleting columns 
 
 del df_initial['time']
 del df_initial['ID']
@@ -45,7 +50,7 @@ print(df_nondutch.count())
 
 ## no need to print these because it's just formatting data for analysis
 
-## EVERYTIME you run this, run the first box FIRST or else you will divide again and again
+## EVERYTIME you run this, run the first kernel/data calling FIRST or else you will divide again 
 
 df_dutch[['perc_P_50c','perc_R_50c']] = df_dutch[['perc_P_50c','perc_R_50c']]/50
 df_dutch[['perc_P_20','perc_R_20']] = df_dutch[['perc_P_20','perc_R_20']]/20
@@ -55,6 +60,7 @@ df_nondutch[['perc_P_50c','perc_R_50c']] = df_nondutch[['perc_P_50c','perc_R_50c
 
 print (df_dutch)
 print (df_nondutch)
+
 
 ## PROPOSER, PAYOFF = 20, DUTCH VS. NON DUTCH
 
@@ -67,6 +73,8 @@ if p > alpha:
     print('Same distribution (fail to reject H0)')
 else:
     print('Different distribution (reject H0)')
+
+## distribution plots for class presentation
 
 sns_1 = sns.distplot(df_dutch['perc_P_20'], hist=False, rug=True);  ##blue
 sns_2 = sns.distplot(df_nondutch['perc_P_20'], hist=False, rug=True);  ##orange
@@ -189,9 +197,14 @@ import plotly.offline as py
 import plotly.graph_objs as go
 import json
 
+## rounding numbers to 4 decimals (only necessary with means and p-value)
+
 def truncate(n, decimals=4):
     multiplier = 10 ** decimals
     return int(n * multiplier) / multiplier
+
+## create a table with the stats, p-value and means/medians for better visualization 
+## will export tables and graphs to google slides (through API) as well
 
 med_20R_Dutch = df_dutch['perc_R_20'].median()
 med_20R_NonDutch = df_nondutch['perc_R_20'].median()
@@ -206,6 +219,8 @@ mean_20P_NonDutch = truncate(df_nondutch['perc_P_20'].mean())
 mean_20P_Dutch = truncate(df_dutch['perc_P_20'].mean())
 
 p_value = truncate(p)
+
+## styled table
 
 trace1 = go.Table(
     header=dict(values=['','Mean','Median','Mann Whitney Statistic','P-value'],
